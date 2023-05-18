@@ -1,11 +1,35 @@
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital@1&family=Open+Sans:wght@700&family=Raleway:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"/>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    
+<body class="body">
+    <div class="container__main">
+    <header class="header">
+        <h1 class="banner">ToDo</h1>
+        <div class="input__space">
+            <button class="check__all">❯</button>
+        <input id="input1" type="text" class="input__add" placeholder="Your tasks" autofocus/>
+    </div>
+    </header>
+    <div class="container__task">
+        <ul></ul>
+    </div>
+    <footer class="footer">
+        <span class="task__count">Items</span>
+        <ul>
+            <button class="button__filter">All</button>
+            <button class="button__filter">InActive</button>
+            <button class="button__filter">Complete</button>
+        </ul>
+        <button class="button__clear__completed">Clear completed</button>
+    </footer>
+</div>
 </body>
+<script type="module" src="/ToDo/script.js" ></script>
 </html>
