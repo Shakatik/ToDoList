@@ -86,23 +86,46 @@ width: 400px;
     transition: box-shadow 0.3s ease-in-out;
 }
 
+.task__list {
+    margin: 0;
+    padding: 0;
+}
+
 .task {
+    display: flex;
+    overflow: hidden;
     width: auto;
-    height: 200px;
+    height: auto;
     font-weight: 600;
-    text-transform: uppercase;
-    font-size: 23px;
-    font-family: 'Raleway', sans-serif;
-    box-shadow: 14px black;
-    color: #283aff;
     background-image: url(img/vlad.jpg);
     background-size: cover;
     border: 2px solid rgb(101, 212, 252);
-    text-align: center;
+    justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+.task__text {
+    width: 80%;
+    word-break: break-word;
+    overflow: hidden;
+    font-weight: 600;
+    font-size: 23px;
+    font-family: 'Raleway', sans-serif;
+    color: #283aff;
+
+}
+
+.complete__toggle {
+    position: absolute;
+    left: 0;
+    height: auto;
+    width: 30px;
 }
 
 .button__delete {
+    position: absolute;
+    right: 0;
     font-weight: 600;
     text-transform: uppercase;
     display: inline-block;
@@ -110,7 +133,6 @@ width: 400px;
     font-size: 13px;
     font-family: 'Raleway', sans-serif;
     color: #9299ff;
-    background-image: none;
     background: transparent;
     border: 2px solid rgb(255, 188, 147);
     transition: background .3s;
