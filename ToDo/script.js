@@ -1,13 +1,14 @@
-
-
 const filterButtons = document.querySelectorAll(".button__filter");
 const input = document.querySelector("input");
 const taskList = document.querySelector(".task__list");
+const checkAll = document.querySelector(".check__all")
+const completeCleanButton = document.getElementById("allCompleteCleanButton");
 let initialData = JSON.parse(localStorage.getItem("array")) || [];
 let renderData = [...initialData];
 let objectId = parseInt(localStorage.getItem("objectId")) || 0;
-
+let isChecked = localStorage.getItem("isChecked");
 render();
+
 function render() {
   const tasks = document.querySelectorAll(".task");
   tasks.forEach((item) => {
@@ -16,28 +17,52 @@ function render() {
 
   renderData.forEach((element) => {
     console.log(element)
+    const completeToggle = document.createElement("input");
+    completeToggle.type = "checkbox";
+    completeToggle.classList.add("complete__toggle");
+    completeToggle.checked = element.isChecked; 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "X";
     deleteButton.classList.add("button__delete");
+    const p = document.createElement("p");
+    p.textContent = element.value;
+    p.classList.add("task__text");
     const div = document.createElement("div");
-    div.textContent = element.value;
     div.classList.add("task");
-    div.append(deleteButton);
-    deleteButton.addEventListener("click", function remove() {
+    div.prepend(completeToggle);
+    div.append(p, deleteButton);
 
+    checkAll.addEventListener("click", function () {
+        element.isChecked = !completeToggle.checked;
+      render();
+    });
+
+    completeToggle.addEventListener("change", function () { 
+      element.isChecked = completeToggle.checked;
+      localStorage.setItem("isChecked", completeToggle.checked);
+      console.log(element.isChecked)
+    });
+
+    deleteButton.addEventListener("click", function () {
       initialData = initialData.filter((item) => item.id !== element.id);
-
       renderData = [...initialData];
       render();
       localStorage.setItem("array", JSON.stringify(initialData));
     });
+
     taskList.appendChild(div);
   });
 }
 
+completeCleanButton.addEventListener("click", function () {
+  initialData = initialData.filter((item) => !item.isChecked);
+  renderData = [...initialData];
+  render();
+  localStorage.setItem("array", JSON.stringify(initialData));
+});
+
 input.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    // код который будет выполняться при нажатии Enter в поле ввода
     makeElement();
     console.log("enter");
   }
@@ -48,15 +73,14 @@ function makeElement() {
     id: objectId++,
     value: input.value,
     creationDate: Date.now(),
+    isChecked: false 
   };
   if (input.value === "") {
     alert("Введите значение");
   } else {
-    // Функция добавления элемента в массив initial
     input.value = "";
     addItem(taskData);
   }
-
 }
 
 function addItem(newItem) {
@@ -64,5 +88,6 @@ function addItem(newItem) {
   renderData = [...initialData];
   render();
   localStorage.setItem("array", JSON.stringify(initialData));
-  localStorage.setItem("objectId", objectId)
+  localStorage.setItem("objectId", objectId);
 }
+
