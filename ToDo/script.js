@@ -32,16 +32,16 @@ function render() {
     div.prepend(completeToggle);
     div.append(p, deleteButton);
 
-    checkAll.addEventListener("click", function () {
-        element.isChecked = !completeToggle.checked;
-      render();
-    });
+    // checkAll.addEventListener("click", function () {
+    //     element.isChecked = !completeToggle.checked;
+    //   render();
+    // });
 
-    completeToggle.addEventListener("change", function () { 
-      element.isChecked = completeToggle.checked;
-      localStorage.setItem("isChecked", completeToggle.checked);
-      console.log(element.isChecked)
-    });
+    // completeToggle.addEventListener("change", function () { 
+    //   element.isChecked = completeToggle.checked;
+    //   localStorage.setItem("isChecked", completeToggle.checked);
+    //   console.log(element.isChecked)
+    // });
 
     deleteButton.addEventListener("click", function () {
       initialData = initialData.filter((item) => item.id !== element.id);
@@ -73,7 +73,7 @@ function makeElement() {
     id: objectId++,
     value: input.value,
     creationDate: Date.now(),
-    isChecked: false 
+    isChecked: false,
   };
   if (input.value === "") {
     alert("Введите значение");
