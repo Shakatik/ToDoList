@@ -119,8 +119,12 @@ width: 400px;
 .complete__toggle {
     position: absolute;
     left: 0;
-    height: auto;
+    height: 30px;
     width: 30px;
+}
+
+.toggle__active {
+    background-color:#d19ffb;
 }
 
 .button__delete {
