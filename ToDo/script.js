@@ -17,10 +17,12 @@ function render() {
 
   renderData.forEach((element) => {
     console.log(element)
-    const completeToggle = document.createElement("input");
-    completeToggle.type = "checkbox";
+    const completeToggle = document.createElement("button");
     completeToggle.classList.add("complete__toggle");
-    completeToggle.checked = element.isChecked; 
+    if (element.isChecked) {
+      completeToggle.classList.add("toggle__active");
+    }
+    // completeToggle.checked = element.isChecked; 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "X";
     deleteButton.classList.add("button__delete");
@@ -32,16 +34,19 @@ function render() {
     div.prepend(completeToggle);
     div.append(p, deleteButton);
 
-    // checkAll.addEventListener("click", function () {
-    //     element.isChecked = !completeToggle.checked;
-    //   render();
-    // });
 
-    // completeToggle.addEventListener("change", function () { 
-    //   element.isChecked = completeToggle.checked;
-    //   localStorage.setItem("isChecked", completeToggle.checked);
-    //   console.log(element.isChecked)
-    // });
+
+    completeToggle.addEventListener("click", function () { 
+      if (completeToggle.classList.contains("toggle__active")) {
+        completeToggle.classList.remove("toggle__active");
+        element.isChecked = false;
+      } else {
+        completeToggle.classList.add("toggle__active")
+        element.isChecked = true;
+    }
+    localStorage.setItem("array", JSON.stringify(initialData));
+    render()
+    });
 
     deleteButton.addEventListener("click", function () {
       initialData = initialData.filter((item) => item.id !== element.id);
@@ -53,6 +58,14 @@ function render() {
     taskList.appendChild(div);
   });
 }
+
+// checkAll.addEventListener("click", function () {
+
+//   // initialData = initialData.filter((item) => !item.isChecked = );
+//   // renderData = [...initialData];
+//   render();
+//   localStorage.setItem("array", JSON.stringify(initialData));
+// });
 
 completeCleanButton.addEventListener("click", function () {
   initialData = initialData.filter((item) => !item.isChecked);
