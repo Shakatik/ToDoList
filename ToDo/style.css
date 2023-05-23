@@ -169,6 +169,11 @@ width: 400px;
     color:#5678fe;
 }
 
+.filter__active {
+    background-color: #ff0000;
+}
+
+
 .active {
     background-color: #c2ffe2;
     overflow: hidden;
