@@ -6,7 +6,7 @@ const completeCleanButton = document.getElementById("allCompleteCleanButton");
 let initialData = JSON.parse(localStorage.getItem("array")) || [];
 let renderData = [...initialData];
 let objectId = parseInt(localStorage.getItem("objectId")) || 0;
-let isChecked = localStorage.getItem("isChecked");
+// let isChecked = localStorage.getItem("isChecked");
 render();
 
 function render() {
@@ -35,7 +35,6 @@ function render() {
     div.append(p, deleteButton);
 
 
-
     completeToggle.addEventListener("click", function () { 
       if (completeToggle.classList.contains("toggle__active")) {
         completeToggle.classList.remove("toggle__active");
@@ -59,13 +58,21 @@ function render() {
   });
 }
 
-// checkAll.addEventListener("click", function () {
+checkAll.addEventListener('click', function () {
+  const allChecked = renderData.every((element) => element.isChecked)
+  if (allChecked) {
+    renderData.forEach((element) => {
+      element.isChecked = false;
+    });
+  } else {
+    renderData.forEach((element) => {
+      element.isChecked = true;
+    });
+  }
+  localStorage.setItem("array", JSON.stringify(initialData));
+  render();
+});
 
-//   // initialData = initialData.filter((item) => !item.isChecked = );
-//   // renderData = [...initialData];
-//   render();
-//   localStorage.setItem("array", JSON.stringify(initialData));
-// });
 
 completeCleanButton.addEventListener("click", function () {
   initialData = initialData.filter((item) => !item.isChecked);
@@ -104,3 +111,42 @@ function addItem(newItem) {
   localStorage.setItem("objectId", objectId);
 }
 
+const onFilterClick = (event) => {
+  const target = event.target;
+  console.log(target)
+  console.log(target.dataset.type)
+  const dataType = target.dataset.type;
+  
+  if(target.dataset.type === "complete__item") {
+    initialData = initialData.filter((item) => item.isChecked);
+    renderData = [...initialData];
+    console.log(renderData)
+    render();
+    localStorage.setItem("array", JSON.stringify(initialData));
+  } if (target.dataset.type === "active__item") {
+    initialData = initialData.filter((item) => !item.isChecked);
+    renderData = [...initialData];
+    console.log(renderData)
+    render();
+    localStorage.setItem("array", JSON.stringify(initialData));
+  } else {
+    console.log(renderData)
+    render();
+  }
+  // if (button.dataset.type) {
+  //   button.classList.add("filter__active");
+  // }
+  // filterButtons.forEach((button) => button.classList.remove("filter__active"))
+  // filterItemsByType(dataType);
+  // target.classList.add("active")
+}
+
+function filterItemsByType() {
+
+}
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", onFilterClick)
+  button.classList.remove("filter__active")
+  console.log(button)
+});
