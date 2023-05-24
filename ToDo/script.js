@@ -29,6 +29,27 @@ function render() {
     const p = document.createElement("p");
     p.textContent = element.value;
     p.classList.add("task__text");
+    p.addEventListener("dblclick", function() {
+      const input = document.createElement("input");
+      input.value = p.textContent;
+      p.parentNode.replaceChild(input, p);
+      input.focus;
+
+      input.classList.add("input__task__change")
+      input.focus;
+      input.addEventListener("blur", function() {
+        const edited = input.value;
+        const p = document.createElement("p");
+        input.parentNode.replaceChild(p, input);
+        const newText = renderData.find((item) => item.id === element.id) 
+        if (edited) {
+          newText.value = edited;
+          localStorage.setItem("array", JSON.stringify(initialData))
+          p.classList.add("task__text");
+          render()
+        }
+      })
+    })
     const div = document.createElement("div");
     div.classList.add("task");
     div.prepend(completeToggle);
