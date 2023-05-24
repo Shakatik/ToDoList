@@ -97,37 +97,67 @@ width: 400px;
     width: auto;
     height: auto;
     font-weight: 600;
-    background-image: url(img/vlad.jpg);
-    background-size: cover;
-    border: 2px solid rgb(101, 212, 252);
+    background-size:contain;
+    border: none;
     justify-content: center;
     align-items: center;
     position: relative;
+    background: linear-gradient(to right, #c7bfff, #d19ffb);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .task__text {
-    width: 80%;
+    margin-left: 15px;
+    width: 75%;
     word-break: break-word;
     overflow: hidden;
     font-weight: 600;
     font-size: 23px;
     font-family: 'Raleway', sans-serif;
-    color: #283aff;
+    color: #9d69fe  ;
 
 }
 
+.input__task__change {
+    background-color: transparent;
+    width: auto;
+    height: 70px;
+    word-break: break-word;
+    font-weight: 600;
+    font-size: 23px;
+    font-family: 'Raleway', sans-serif;
+    color: #8e51ff;
+}
+
 .complete__toggle {
+    margin-left: 10px;
     position: absolute;
     left: 0;
     height: 30px;
     width: 30px;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
+.complete__toggle:hover {
+    background-color: #d19ffb;
+  }
 
 .toggle__active {
     background-color:#d19ffb;
+    content: "\2713";
 }
 
 .button__delete {
+    margin-right: 10px;
     position: absolute;
     right: 0;
     font-weight: 600;
