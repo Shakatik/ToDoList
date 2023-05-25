@@ -35,10 +35,10 @@ function render() {
       const input = document.createElement("input");
       input.value = p.textContent;
       p.parentNode.replaceChild(input, p);
-      input.focus;
+      input.focus();
 
       input.classList.add("input__task__change");
-      input.focus;
+      input.focus();
       input.addEventListener("blur", function () {
         const edited = input.value;
         const p = document.createElement("p");
