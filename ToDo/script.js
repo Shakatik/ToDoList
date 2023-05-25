@@ -76,10 +76,10 @@ function render() {
       render();
       localStorage.setItem("array", JSON.stringify(initialData));
     });
-    const itemText = renderData.length === 1 ? "item" : "items"
-    taskCount.textContent = `${renderData.length} ${itemText} left`
     taskList.appendChild(div);
   });
+  const itemText = renderData.length === 1 ? "item" : "items"
+  taskCount.textContent = `${renderData.length} ${itemText} left`
 }
 
 checkAll.addEventListener("click", function () {
