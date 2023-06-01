@@ -39,7 +39,8 @@ function render() {
 
       input.classList.add("input__task__change");
       input.focus();
-      input.addEventListener("blur", function () {
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
         const edited = input.value;
         const p = document.createElement("p");
         input.parentNode.replaceChild(p, input);
@@ -50,7 +51,7 @@ function render() {
           p.classList.add("task__text");
           render();
         }
-      });
+      }});
     });
 
     const div = document.createElement("div");
@@ -82,8 +83,23 @@ function render() {
   taskCount.textContent = `${renderData.length} ${itemText} left`
 }
 
+function edit() {
+  const edited = input.value;
+  const p = document.createElement("p");
+  input.parentNode.replaceChild(p, input);
+  const newText = renderData.find((item) => item.id === element.id);
+  if (edited) {
+    newText.value = edited;
+    localStorage.setItem("array", JSON.stringify(initialData));
+    p.classList.add("task__text");
+    render();
+  }
+}
+
+
 checkAll.addEventListener("click", function () {
   const allChecked = renderData.every((element) => element.isChecked);
+  checkAll.classList.remove("check__all_active");
   if (allChecked) {
     renderData.forEach((element) => {
       element.isChecked = false;
@@ -91,6 +107,7 @@ checkAll.addEventListener("click", function () {
   } else {
     renderData.forEach((element) => {
       element.isChecked = true;
+      checkAll.classList.add("check__all_active");
     });
   }
   localStorage.setItem("array", JSON.stringify(initialData));
@@ -118,8 +135,8 @@ function makeElement() {
     creationDate: Date.now(),
     isChecked: false,
   };
-  if (input.value === "") {
-    alert("Введите значение");
+  if (input.value.trim() === "") {
+    return
   } else {
     input.value = "";
     addItem(taskData);
