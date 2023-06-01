@@ -2,15 +2,16 @@
     display:flex;
     flex-direction: column;
     align-items: center;
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .container__main {
-width: 400px;
+width: 600px;
 }
 
 .header {
     width: auto;
-    height: 200px;
+    height: 170px;
     align-items: center;
     flex-direction: column;
 }
@@ -19,7 +20,6 @@ width: 400px;
     width: auto;
     height: 40px;
     font-size: 83px;
-    font-family: 'Raleway', sans-serif;
     font-weight: 600;
     color: aquamarine;
     text-align: center;
@@ -27,34 +27,61 @@ width: 400px;
 }
 
 .footer {
+    /* visibility: hidden; */
     display: flex;
+    justify-content: center;
     align-items: center;
     text-align: center;
+    background: #ffffff;    
+    box-shadow: 0 2px 5px rgba(108, 108, 108, 0.1);
+    border-top:  1px  solid rgb(246, 246, 246);
 }
 
 .input__space {
     box-sizing: border-box;
-    width: 100% ;
-    /* margin: 5px; */
+    width: 100%;
     padding: 10px;
-    border-radius: 10px;
     border: none;
-    background: linear-gradient(to right, #c7bfff, #d19ffb);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.input__add {
+    box-sizing: border-box;
+    width: 85% ;
+    padding: 10px;
+    border: none;
+    background-color: transparent ;
+    color: #737373;
+    font-size: 26px;
+    outline: none;
+    transition: box-shadow 0.3s ease-in-out;
+    font-size: 24px;
+	font-family: inherit;
+	font-weight: inherit;
+    line-height: 1.4em;
+}
+
+.input__add::placeholder{
+    color:#ccc;
+    font-style: italic;
 }
 
 .check__all {
+    color: #000000;
+    font-size: 24px;
     padding: 10px;
-    color: #fff;
-    font-size: 26px;
-    font-family: 'Raleway', sans-serif;
     outline: none;
     border: none;
     background-color: transparent ;
     transition: background .3s;
-    /* animation-name: rotate; */
+    animation-name: rotate;
     animation-duration: 1.5s;
     animation-fill-mode: forwards;
+}
+
+.check__all_active {
+    color: #000000;
 }
 
 .check__all:hover {
@@ -73,18 +100,6 @@ width: 400px;
 }
 
 
-.input__add {
-    box-sizing: border-box;
-    width: 85% ;
-    padding: 10px;
-    border: none;
-    background-color: transparent ;
-    color: #fff;
-    font-size: 26px;
-    font-family: 'Raleway', sans-serif;
-    outline: none;
-    transition: box-shadow 0.3s ease-in-out;
-}
 
 .task__list {
     margin: 0;
@@ -95,27 +110,29 @@ width: 400px;
     display: flex;
     overflow: hidden;
     width: auto;
-    height: auto;
+    height: 70px;
     font-weight: 600;
     background-size:contain;
-    border: none;
     justify-content: center;
     align-items: center;
     position: relative;
-    background: linear-gradient(to right, #c7bfff, #d19ffb);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    background: #ffffff;    
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-top:  1px  solid rgb(241, 241, 241);
 }
 
 .task__text {
+    height: 70px;
     margin-left: 15px;
     width: 75%;
     word-break: break-word;
     overflow: hidden;
     font-weight: 600;
     font-size: 23px;
-    font-family: 'Raleway', sans-serif;
-    color: #9d69fe  ;
-
+    color: #737373;
+    justify-content: left;
+    align-items: center;
+    display: flex;
 }
 
 .input__task__change {
@@ -125,8 +142,7 @@ width: 400px;
     word-break: break-word;
     font-weight: 600;
     font-size: 23px;
-    font-family: 'Raleway', sans-serif;
-    color: #8e51ff;
+    color: #737373;
 }
 
 .complete__toggle {
@@ -157,22 +173,30 @@ width: 400px;
 }
 
 .button__delete {
-    margin-right: 10px;
+    height: 70px;
+    width: 70px;
     position: absolute;
     right: 0;
     font-weight: 600;
     text-transform: uppercase;
     display: inline-block;
     vertical-align: top;
-    font-size: 23px;
-    font-family: 'Raleway', sans-serif;
-    color: #9299ff;
+    font-size: 18px;
+    color: #ffffff;
     background: transparent;
     border: none;
     transition: background .3s;
 }
 
+.task__text:hover + .button__delete {
+    color: #5d1a1a;  
+    transform: scale(1.3);
+    transition: transform 0.4s;
+    overflow: hidden;
+}
+
 .button__delete:hover {
+    color: #5d1a1a;
     transform: scale(1.3);
     transition: transform 0.4s;
     overflow: hidden;
@@ -180,14 +204,13 @@ width: 400px;
 
 .button__filter {
     margin: 5px;
-    width: 90px;
-    height: 40px;
+    width: auto;
+    height: 30px;
     font-weight: 600;
     text-transform: uppercase;
     display: inline-block;
     vertical-align: top;
-    font-size: 13px;
-    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
     cursor: pointer;
     box-shadow: 14px black;
     color: #9299ff;
@@ -218,12 +241,14 @@ width: 400px;
   }
 
 .button__clear__completed {
+    margin-left: 10px;
+    height: 30px;
+    width: auto;
     font-weight: 600;
     text-transform: uppercase;
     display: inline-block;
     vertical-align: top;
-    font-size: 13px;
-    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
     color: #9299ff;
     background-image: none;
     background: transparent;
@@ -241,6 +266,5 @@ width: 400px;
 
 .task__count {
     font-size: 13px;
-    font-family: 'Raleway', sans-serif;
     color: #9299ff;
 }
