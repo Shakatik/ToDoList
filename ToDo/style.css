@@ -27,7 +27,7 @@ width: 600px;
 }
 
 .footer {
-    /* visibility: hidden; */
+    visibility: visible;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -145,31 +145,37 @@ width: 600px;
     color: #737373;
 }
 
-.complete__toggle {
+.complete__switch {
     margin-left: 10px;
     position: absolute;
     left: 0;
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     display: inline-block;
     border: 2px solid #ccc;
     border-radius: 4px;
     padding: 6px 12px;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     color: #333;
     font-size: 14px;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
+    border-radius: 50%;
 }
 
-.complete__toggle:hover {
-    background-color: #d19ffb;
-  }
+.complete__switch:hover {
+    border: 2px solid aquamarine;
+    background-color: #ffffff;
+}
 
-.toggle__active {
-    background-color:#d19ffb;
-    content: "\2713";
+.switch__active {
+    border: 2px solid aquamarine;
+    background-image: url("/ToDo/img/pngegg.png");
+    background-size: 60% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 0.3s ease; 
 }
 
 .button__delete {
@@ -216,20 +222,21 @@ width: 600px;
     color: #9299ff;
     background-image: none;
     background: transparent;
-    border: 2px solid rgb(101, 252, 207);
     transition: background .3s;
+    border: none;
 }
 
 .button__filter:hover {
-    background-color: #c2ffe2;
+    border: 2px solid rgb(101, 252, 207);
     overflow: hidden;
-    transform: scale(1.1);
-    transition: transform 0.4s;
+    transform: scale(1.02);
+    transition: transform 0.1s;
     color:#5678fe;
 }
 
 .filter__active {
-    background-color: #ff0000;
+    background-color: #fffafa;
+    border: 2px solid rgb(101, 252, 207);
 }
 
 
@@ -241,6 +248,7 @@ width: 600px;
   }
 
 .button__clear__completed {
+    visibility: visible;
     margin-left: 10px;
     height: 30px;
     width: auto;
@@ -252,19 +260,25 @@ width: 600px;
     color: #9299ff;
     background-image: none;
     background: transparent;
-    border: 2px solid rgb(255, 188, 147);
-    transition: background .3s;
+    border: none;
 }
 
 .button__clear__completed:hover {
-    background-color: #ffebb4;
     overflow: hidden;
-    transform: scale(1.05);
-    transition: transform 0.3s;
+    transform: scale(1.02);
+    transition: transform 0.1s;
     color:#5678fe;
+    text-decoration: underline;
+    backface-visibility: hidden;
 }
 
 .task__count {
     font-size: 13px;
     color: #9299ff;
 }
+
+
+
+
+
+
