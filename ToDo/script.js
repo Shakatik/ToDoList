@@ -9,7 +9,7 @@ let filterType = localStorage.getItem("filter-type") || "all__item";
 let initialData = JSON.parse(localStorage.getItem("array")) || [];
 let renderData = [...initialData];
 let objectId = parseInt(localStorage.getItem("objectId")) || 0;
-let isEditing = false; 
+let isEditing = false;
 
 filterItemsByType(filterType);
 render();
@@ -34,8 +34,8 @@ function render() {
     p.textContent = element.value;
     p.classList.add("task__text");
 
-    p.addEventListener("dblclick", function () {
-      if (isEditing) return; // Ignore if already editing
+    p.addEventListener("dblclick", function paragraphEdit () {
+      if (isEditing) return; // Игнорировать если уже отредачено
       isEditing = true;
       const input = document.createElement("input");
       input.value = p.textContent;
@@ -58,6 +58,7 @@ function render() {
             render();
           }
           isEditing = false;
+          render()
         }
       });
     });
@@ -88,18 +89,17 @@ function render() {
     });
     taskList.appendChild(div);
   });
-  // if (initialData.isChecked === "true") {
-  //   allCompleteCleanButton.style.visibility = "visible"
-  // }
 
   if (initialData.length === 0) {
     footer.style.visibility = "hidden";
   }
-  console.log(initialData)
+  console.log(initialData);
   let activeTaskCount = initialData.reduce((acc, item) => {
     return acc + (item.isChecked === false ? 1 : 0);
   }, 0);
-  taskCount.textContent = `${activeTaskCount} ${activeTaskCount === 1 ? "item" : "items"} left`;
+  taskCount.textContent = `${activeTaskCount} ${
+    activeTaskCount === 1 ? "item" : "items"
+  } left`;
 }
 
 function edit() {
