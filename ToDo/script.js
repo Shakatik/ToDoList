@@ -4,11 +4,13 @@ const input = document.querySelector("input");
 const taskList = document.querySelector(".task__list");
 const checkAll = document.querySelector(".check__all");
 const completeCleanButton = document.getElementById("allCompleteCleanButton");
+const footer = document.querySelector("footer");
 let filterType = localStorage.getItem("filter-type") || "all__item";
 let initialData = JSON.parse(localStorage.getItem("array")) || [];
 let renderData = [...initialData];
 let objectId = parseInt(localStorage.getItem("objectId")) || 0;
 let isEditing = false; 
+
 filterItemsByType(filterType);
 render();
 
@@ -17,13 +19,13 @@ function render() {
   tasks.forEach((item) => {
     item.remove();
   });
-
+  footer.style.visibility = "visible";
   renderData.forEach((element) => {
     console.log(element);
-    const completeToggle = document.createElement("button");
-    completeToggle.classList.add("complete__toggle");
+    const completeSwitch = document.createElement("button");
+    completeSwitch.classList.add("complete__switch");
     if (element.isChecked) {
-      completeToggle.classList.add("toggle__active");
+      completeSwitch.classList.add("switch__active");
     }
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "X";
@@ -42,7 +44,7 @@ function render() {
 
       input.classList.add("input__task__change");
       input.focus();
-      completeToggle.style.display = "none";
+      completeSwitch.style.display = "none";
       input.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           const edited = input.value;
@@ -62,29 +64,38 @@ function render() {
 
     const div = document.createElement("div");
     div.classList.add("task");
-    div.prepend(completeToggle);
+    div.prepend(completeSwitch);
     div.append(p, deleteButton);
 
-    completeToggle.addEventListener("click", function () {
-      if (completeToggle.classList.contains("toggle__active")) {
-        completeToggle.classList.remove("toggle__active");
+    completeSwitch.addEventListener("click", function () {
+      if (completeSwitch.classList.contains("switch__active")) {
+        completeSwitch.classList.remove("switch__active");
         element.isChecked = false;
       } else {
-        completeToggle.classList.add("toggle__active");
+        completeSwitch.classList.add("switch__active");
         element.isChecked = true;
       }
       localStorage.setItem("array", JSON.stringify(initialData));
+      filterItemsByType(filterType);
       render();
     });
 
     deleteButton.addEventListener("click", function () {
       initialData = initialData.filter((item) => item.id !== element.id);
       renderData = [...initialData];
-      render();
       localStorage.setItem("array", JSON.stringify(initialData));
+      render();
     });
     taskList.appendChild(div);
   });
+  // if (initialData.isChecked === "true") {
+  //   allCompleteCleanButton.style.visibility = "visible"
+  // }
+
+  if (initialData.length === 0) {
+    footer.style.visibility = "hidden";
+  }
+  console.log(initialData)
   let activeTaskCount = initialData.reduce((acc, item) => {
     return acc + (item.isChecked === false ? 1 : 0);
   }, 0);
@@ -124,8 +135,8 @@ checkAll.addEventListener("click", function () {
 completeCleanButton.addEventListener("click", function () {
   initialData = initialData.filter((item) => !item.isChecked);
   renderData = [...initialData];
-  render();
   localStorage.setItem("array", JSON.stringify(initialData));
+  render();
 });
 
 input.addEventListener("keydown", function (event) {
@@ -154,9 +165,9 @@ function addItem(newItem) {
   initialData.push(newItem);
   renderData = [...initialData];
   filterItemsByType(filterType);
-  render();
   localStorage.setItem("array", JSON.stringify(initialData));
   localStorage.setItem("objectId", objectId);
+  render();
 }
 
 function filterItemsByType(Type) {
