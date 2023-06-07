@@ -1,3 +1,4 @@
+containerRender();
 const filterButtons = document.querySelectorAll(".button__filter");
 const taskCount = document.querySelector(".task__count");
 const input = document.querySelector("input");
@@ -12,13 +13,15 @@ let objectId = parseInt(localStorage.getItem("objectId")) || 0;
 let isEditing = false;
 
 filterItemsByType(filterType);
+
 render();
 
 function render() {
-  const tasks = document.querySelectorAll(".task");
-  tasks.forEach((item) => {
-    item.remove();
-  });
+  // const tasks = document.querySelectorAll(".task");
+  // tasks.forEach((item) => {
+  //   item.remove();
+  // });
+  taskList.innerHTML = "";
   footer.style.visibility = "visible";
   renderData.forEach((element) => {
     console.log(element);
@@ -55,7 +58,6 @@ function render() {
             newText.value = edited;
             localStorage.setItem("array", JSON.stringify(initialData));
             p.classList.add("task__text");
-            render();
           }
           isEditing = false;
           render()
@@ -147,7 +149,7 @@ input.addEventListener("keydown", function (event) {
 });
 
 function makeElement() {
-  const taskData = {
+  const newTaskData = {
     id: objectId++,
     value: input.value,
     creationDate: Date.now(),
@@ -157,7 +159,7 @@ function makeElement() {
     return;
   } else {
     input.value = "";
-    addItem(taskData);
+    addItem(newTaskData);
   }
 }
 
@@ -186,9 +188,8 @@ function filterItemsByType(Type) {
 
 const onFilterClick = (event) => {
   const target = event.target;
-  const dataType = target.dataset.type;
   filterButtons.forEach((button) => button.classList.remove("filter__active"));
-  filterItemsByType(dataType);
+  filterItemsByType(target.dataset.type);
   target.classList.add("filter__active");
 };
 
@@ -198,3 +199,92 @@ filterButtons.forEach((button) => {
     button.classList.add("filter__active");
   }
 });
+
+
+
+
+
+function containerRender() {
+  const containerMain = document.createElement("div");
+  containerMain.classList.add("container__main");
+
+  const header = document.createElement("header");
+  header.classList.add("header");
+
+  const h1 = document.createElement("h1");
+  h1.classList.add("banner");
+  h1.textContent = "ToDo";
+
+  const divInputSpace = document.createElement("div");
+  divInputSpace.classList.add("input__space");
+
+  const buttonCheckAll = document.createElement("button");
+  buttonCheckAll.classList.add("check__all");
+  buttonCheckAll.textContent = "❯";
+
+  const input = document.createElement("input");
+  input.setAttribute("id", "input");
+  input.setAttribute("type", "text");
+  input.classList.add("input__add");
+  input.setAttribute("placeholder", "Your tasks");
+  input.setAttribute("autofocus", "");
+
+  divInputSpace.appendChild(buttonCheckAll);
+  divInputSpace.appendChild(input);
+
+  header.appendChild(h1);
+  header.appendChild(divInputSpace);
+
+  const containerTask = document.createElement("div");
+  containerTask.classList.add("container__task");
+
+  const ulTaskList = document.createElement("ul");
+  ulTaskList.classList.add("task__list");
+
+  containerTask.appendChild(ulTaskList);
+
+  const footer = document.createElement("footer");
+  footer.classList.add("footer");
+
+  const spanTaskCount = document.createElement("span");
+  spanTaskCount.classList.add("task__count");
+  spanTaskCount.textContent = "Items";
+
+  const ulButtons = document.createElement("ul");
+
+  const buttonAll = document.createElement("button");
+  buttonAll.classList.add("button__filter");
+  buttonAll.setAttribute("data-type", "all__item");
+  buttonAll.textContent = "All";
+
+  const buttonActive = document.createElement("button");
+  buttonActive.classList.add("button__filter");
+  buttonActive.setAttribute("data-type", "active__item");
+  buttonActive.textContent = "Active";
+
+  const buttonComplete = document.createElement("button");
+  buttonComplete.classList.add("button__filter");
+  buttonComplete.setAttribute("data-type", "completed__item");
+  buttonComplete.textContent = "Complete";
+
+  ulButtons.appendChild(buttonAll);
+  ulButtons.appendChild(buttonActive);
+  ulButtons.appendChild(buttonComplete);
+
+  const buttonClearCompleted = document.createElement("button");
+  buttonClearCompleted.setAttribute("id", "allCompleteCleanButton");
+  buttonClearCompleted.classList.add("button__clear__completed");
+  buttonClearCompleted.textContent = "Clear completed";
+
+  footer.appendChild(spanTaskCount);
+  footer.appendChild(ulButtons);
+  footer.appendChild(buttonClearCompleted);
+
+  containerMain.appendChild(header);
+  containerMain.appendChild(containerTask);
+  containerMain.appendChild(footer);
+
+  document.body.appendChild(containerMain);
+}
+
+
