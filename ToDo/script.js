@@ -13,14 +13,10 @@ let objectId = parseInt(localStorage.getItem("objectId")) || 0;
 let isEditing = false;
 
 filterItemsByType(filterType);
+clearButtonView()
 
-render();
 
 function render() {
-  // const tasks = document.querySelectorAll(".task");
-  // tasks.forEach((item) => {
-  //   item.remove();
-  // });
   taskList.innerHTML = "";
   footer.style.visibility = "visible";
   renderData.forEach((element) => {
@@ -80,6 +76,7 @@ function render() {
       }
       localStorage.setItem("array", JSON.stringify(initialData));
       filterItemsByType(filterType);
+      clearButtonView();
       render();
     });
 
@@ -102,6 +99,7 @@ function render() {
   taskCount.textContent = `${activeTaskCount} ${
     activeTaskCount === 1 ? "item" : "items"
   } left`;
+  console.log(renderData);
 }
 
 function edit() {
@@ -138,6 +136,7 @@ completeCleanButton.addEventListener("click", function () {
   initialData = initialData.filter((item) => !item.isChecked);
   renderData = [...initialData];
   localStorage.setItem("array", JSON.stringify(initialData));
+  clearButtonView();
   render();
 });
 
@@ -200,7 +199,16 @@ filterButtons.forEach((button) => {
   }
 });
 
-
+function clearButtonView() {
+  const hasCheckedItem = renderData.some(obj => obj.isChecked);
+  console.log(hasCheckedItem)
+  if (hasCheckedItem === true) {
+    completeCleanButton.style.visibility = "visible";
+  } else {
+    completeCleanButton.style.visibility = "hidden";
+  }
+  render()
+} 
 
 
 
