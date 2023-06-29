@@ -92,7 +92,6 @@ function render() {
   if (initialData.length === 0) {
     footer.style.visibility = "hidden";
   }
-  console.log(initialData);
   let activeTaskCount = initialData.reduce((acc, item) => {
     return acc + (item.isChecked === false ? 1 : 0);
   }, 0);
@@ -103,17 +102,60 @@ function render() {
 }
 
 function edit() {
-  const edited = input.value;
-  const p = document.createElement("p");
-  input.parentNode.replaceChild(p, input);
-  const newText = renderData.find((item) => item.id === element.id);
-  if (edited) {
-    newText.value = edited;
-    localStorage.setItem("array", JSON.stringify(initialData));
-    p.classList.add("task__text");
-    render();
-  }
+  if (isEditing) return;
+  const input = document.createElement("input");
+  input.value = p.textContent;
+  input.classList.add("input__task__change");
+  p.style.visibility = "none";
+  input.style.visibility = "block";
+  input.focus();
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const edited = input.value;
+      const p = document.createElement("p");
+      p.style.visibility = "block";
+      input.style.visibility = "none";
+      const newText = renderData.find((item) => item.id === element.id);
+      if (edited) {
+        newText.value = edited;
+        localStorage.setItem("array", JSON.stringify(initialData));
+        p.classList.add("task__text");
+      }
+      isEditing = false;
+      render()
+    }
+  })
 }
+function paragraphEdit () {
+  if (isEditing) return; // Игнорировать если уже отредачено
+  isEditing = true;
+  const input = document.createElement("input");
+  input.value = p.textContent;
+  p.parentNode.replaceChild(input, p);
+  input.focus();
+
+  input.classList.add("input__task__change");
+  input.focus();
+  completeSwitch.style.display = "none";
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const edited = input.value;
+      const p = document.createElement("p");
+      input.parentNode.replaceChild(p, input);
+      const newText = renderData.find((item) => item.id === element.id);
+      if (edited) {
+        newText.value = edited;
+        localStorage.setItem("array", JSON.stringify(initialData));
+        p.classList.add("task__text");
+      }
+      isEditing = false;
+      render()
+    }
+  });
+};
+
+
 
 checkAll.addEventListener("click", function () {
   const allChecked = renderData.every((element) => element.isChecked);
@@ -295,4 +337,12 @@ function containerRender() {
   document.body.appendChild(containerMain);
 }
 
+let x = 3;
+function fn() {
+    x = 10;
+    return;
+    function x() {}
+}
 
+fn();
+console.log(x);
