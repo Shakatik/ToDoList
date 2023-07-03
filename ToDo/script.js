@@ -20,7 +20,7 @@ function render() {
   taskList.innerHTML = "";
   footer.style.visibility = "visible";
   renderData.forEach((element) => {
-    console.log(element);
+    // console.log(element);
     const completeSwitch = document.createElement("button");
     completeSwitch.classList.add("complete__switch");
     if (element.isChecked) {
@@ -98,7 +98,6 @@ function render() {
   taskCount.textContent = `${activeTaskCount} ${
     activeTaskCount === 1 ? "item" : "items"
   } left`;
-  console.log(renderData);
 }
 
 function edit() {
@@ -243,7 +242,7 @@ filterButtons.forEach((button) => {
 
 function clearButtonView() {
   const hasCheckedItem = renderData.some(obj => obj.isChecked);
-  console.log(hasCheckedItem)
+  // console.log(hasCheckedItem)
   if (hasCheckedItem === true) {
     completeCleanButton.style.visibility = "visible";
   } else {
@@ -335,14 +334,4 @@ function containerRender() {
   containerMain.appendChild(footer);
 
   document.body.appendChild(containerMain);
-}
-
-let x = 3;
-function fn() {
-    x = 10;
-    return;
-    function x() {}
-}
-
-fn();
-console.log(x);
+};
