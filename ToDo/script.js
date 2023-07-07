@@ -1,4 +1,5 @@
 containerRender();
+fetch("http://localhost:8080/tasks");
 const filterButtons = document.querySelectorAll(".button__filter");
 const taskCount = document.querySelector(".task__count");
 const input = document.querySelector("input");
@@ -13,12 +14,12 @@ let objectId = parseInt(localStorage.getItem("objectId")) || 0;
 let isEditing = false;
 
 filterItemsByType(filterType);
-clearButtonView()
-
+clearButtonView();
 
 function render() {
   taskList.innerHTML = "";
   footer.style.visibility = "visible";
+  console.log(renderData);
   renderData.forEach((element) => {
     // console.log(element);
     const completeSwitch = document.createElement("button");
@@ -30,10 +31,10 @@ function render() {
     deleteButton.textContent = "X";
     deleteButton.classList.add("button__delete");
     const p = document.createElement("p");
-    p.textContent = element.value;
+    p.textContent = element.text;
     p.classList.add("task__text");
 
-    p.addEventListener("dblclick", function paragraphEdit () {
+    p.addEventListener("dblclick", function paragraphEdit() {
       if (isEditing) return; // Игнорировать если уже отредачено
       isEditing = true;
       const input = document.createElement("input");
@@ -56,7 +57,7 @@ function render() {
             p.classList.add("task__text");
           }
           isEditing = false;
-          render()
+          render();
         }
       });
     });
@@ -81,10 +82,17 @@ function render() {
     });
 
     deleteButton.addEventListener("click", function () {
-      initialData = initialData.filter((item) => item.id !== element.id);
-      renderData = [...initialData];
-      localStorage.setItem("array", JSON.stringify(initialData));
-      render();
+      fetch(`https://dummyjson.com/todos/${element.id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          initialData = initialData.filter((item) => item.id !== element.id);
+          renderData = [...initialData];
+          localStorage.setItem("array", JSON.stringify(initialData));
+          render();
+        });
     });
     taskList.appendChild(div);
   });
@@ -100,61 +108,59 @@ function render() {
   } left`;
 }
 
-function edit() {
-  if (isEditing) return;
-  const input = document.createElement("input");
-  input.value = p.textContent;
-  input.classList.add("input__task__change");
-  p.style.visibility = "none";
-  input.style.visibility = "block";
-  input.focus();
+// function edit() {
+//   if (isEditing) return;
+//   const input = document.createElement("input");
+//   input.value = p.textContent;
+//   input.classList.add("input__task__change");
+//   p.style.visibility = "none";
+//   input.style.visibility = "block";
+//   input.focus();
 
-  input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      const edited = input.value;
-      const p = document.createElement("p");
-      p.style.visibility = "block";
-      input.style.visibility = "none";
-      const newText = renderData.find((item) => item.id === element.id);
-      if (edited) {
-        newText.value = edited;
-        localStorage.setItem("array", JSON.stringify(initialData));
-        p.classList.add("task__text");
-      }
-      isEditing = false;
-      render()
-    }
-  })
-}
-function paragraphEdit () {
-  if (isEditing) return; // Игнорировать если уже отредачено
-  isEditing = true;
-  const input = document.createElement("input");
-  input.value = p.textContent;
-  p.parentNode.replaceChild(input, p);
-  input.focus();
+//   input.addEventListener("keydown", (event) => {
+//     if (event.key === "Enter") {
+//       const edited = input.value;
+//       const p = document.createElement("p");
+//       p.style.visibility = "block";
+//       input.style.visibility = "none";
+//       const newText = renderData.find((item) => item.id === element.id);
+//       if (edited) {
+//         newText.value = edited;
+//         localStorage.setItem("array", JSON.stringify(initialData));
+//         p.classList.add("task__text");
+//       }
+//       isEditing = false;
+//       render()
+//     }
+//   })
+// }
+// function paragraphEdit () {
+//   if (isEditing) return; // Игнорировать если уже отредачено
+//   isEditing = true;
+//   const input = document.createElement("input");
+//   input.value = p.textContent;
+//   p.parentNode.replaceChild(input, p);
+//   input.focus();
 
-  input.classList.add("input__task__change");
-  input.focus();
-  completeSwitch.style.display = "none";
-  input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      const edited = input.value;
-      const p = document.createElement("p");
-      input.parentNode.replaceChild(p, input);
-      const newText = renderData.find((item) => item.id === element.id);
-      if (edited) {
-        newText.value = edited;
-        localStorage.setItem("array", JSON.stringify(initialData));
-        p.classList.add("task__text");
-      }
-      isEditing = false;
-      render()
-    }
-  });
-};
-
-
+//   input.classList.add("input__task__change");
+//   input.focus();
+//   completeSwitch.style.display = "none";
+//   input.addEventListener("keydown", (event) => {
+//     if (event.key === "Enter") {
+//       const edited = input.value;
+//       const p = document.createElement("p");
+//       input.parentNode.replaceChild(p, input);
+//       const newText = renderData.find((item) => item.id === element.id);
+//       if (edited) {
+//         newText.value = edited;
+//         localStorage.setItem("array", JSON.stringify(initialData));
+//         p.classList.add("task__text");
+//       }
+//       isEditing = false;
+//       render()
+//     }
+//   });
+// };
 
 checkAll.addEventListener("click", function () {
   const allChecked = renderData.every((element) => element.isChecked);
@@ -188,20 +194,80 @@ input.addEventListener("keydown", function (event) {
   }
 });
 
+// async function makeElement() {
+//   try {
+//     const response = await fetch("https://dummyjson.com/todos/add", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         todo: input.value,
+//         completed: false,
+//         userId: objectId++,
+//       }),
+//     });
+
+//     const apiData = await response.json();
+//     const newTaskData = {
+//       id: 150 + apiData.userId,
+//       value: apiData.todo,
+//       creationDate: Date.now(),
+//       isChecked: apiData.completed,
+//     };
+
+//     input.value = "";
+//     addItem(newTaskData);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 function makeElement() {
   const newTaskData = {
-    id: objectId++,
-    value: input.value,
+    text: input.value,
+    status: 201,
     creationDate: Date.now(),
     isChecked: false,
   };
-  if (input.value.trim() === "") {
+  fetch('http://localhost:8080/create-task', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(newTaskData), 
+  })
+  .then((response) => {
+    if (response.ok) {
+      console.log('Задача создана успешно');
+    } else {
+      console.error('Ошибка при создании задачи');
+    }
+  })
+  .catch((error) => {
+    console.error('Ошибка при отправке запроса', error);
+  });
+    if (input.value.trim() === "") {
     return;
   } else {
     input.value = "";
     addItem(newTaskData);
   }
 }
+
+
+// function makeElement() {
+//   const newTaskData = {
+//     id: objectId++,
+//     value: input.value,
+//     creationDate: Date.now(),
+//     isChecked: false,
+//   };
+
+//   if (input.value.trim() === "") {
+//     return;
+//   } else {
+//     input.value = "";
+//     addItem(newTaskData);
+//   }
+// }
 
 function addItem(newItem) {
   initialData.push(newItem);
@@ -241,17 +307,15 @@ filterButtons.forEach((button) => {
 });
 
 function clearButtonView() {
-  const hasCheckedItem = renderData.some(obj => obj.isChecked);
+  const hasCheckedItem = renderData.some((obj) => obj.isChecked);
   // console.log(hasCheckedItem)
   if (hasCheckedItem === true) {
     completeCleanButton.style.visibility = "visible";
   } else {
     completeCleanButton.style.visibility = "hidden";
   }
-  render()
-} 
-
-
+  render();
+}
 
 function containerRender() {
   const containerMain = document.createElement("div");
@@ -334,4 +398,4 @@ function containerRender() {
   containerMain.appendChild(footer);
 
   document.body.appendChild(containerMain);
-};
+}
